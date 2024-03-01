@@ -8,8 +8,8 @@ class controller_retry_seq_item extends uvm_sequence_item;
 
 function new (string name = "controller_retry_seq_item");
 super.new(name) ;
-endfunction
-
+endfunction   
+                       
 //------controller signals-----//
 rand bit     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
            	 controller_ack_sent_flag, controller_req_sent_flag, 
