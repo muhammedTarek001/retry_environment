@@ -71,10 +71,28 @@ class unpacker_retry_monitor extends uvm_monitor;
   
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    unpacker_retry_seq.unpacker_llctrl= 2;
-
-    unpacker_retry_port.write(unpacker_retry_seq);
     $display("run_phase of unpacker_retry_monitor ");
+
+    forever begin
+    @(posedge monitor_vif.i_clk)
+    unpacker_retry_seq.discard_received_flits <= monitor_vif.discard_received_flits;
+    unpacker_retry_seq.unpacker_req_seq_flag <= monitor_vif.unpacker_req_seq_flag;
+    unpacker_retry_seq.unpacker_flit_type <= monitor_vif.unpacker_flit_type;
+    unpacker_retry_seq.unpacker_all_data_flit_flag <= monitor_vif.unpacker_all_data_flit_flag;
+    unpacker_retry_seq.unpacker_valid_sig <= monitor_vif.unpacker_valid_sig;
+    unpacker_retry_seq.unpacker_ack_seq_flag <= monitor_vif.unpacker_ack_seq_flag;
+    unpacker_retry_seq.unpacker_valid_crc <= monitor_vif.unpacker_valid_crc;
+    unpacker_retry_seq.unpacker_empty_bit <= monitor_vif.unpacker_empty_bit;
+    unpacker_retry_seq.unpacker_llctrl_subtype <= monitor_vif.unpacker_llctrl_subtype;
+    unpacker_retry_seq.unpacker_llctrl <= monitor_vif.unpacker_llctrl;  
+    unpacker_retry_seq.unpacker_retryreq_num <= monitor_vif.unpacker_retryreq_num;  
+    unpacker_retry_seq.unpacker_full_ack <= monitor_vif.unpacker_full_ack;  
+    unpacker_retry_seq.unpacker_rdptr_eseq_num <= monitor_vif.unpacker_rdptr_eseq_num;    
+    unpacker_retry_seq.retry_exist_retry_state <= monitor_vif.retry_exist_retry_state; 
+    unpacker_retry_seq.crc_generator_flit_w_crc <= monitor_vif.crc_generator_flit_w_crc;
+    
+    unpacker_retry_port.write(unpacker_retry_seq);
+   end
   endtask
   
 endclass
