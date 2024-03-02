@@ -101,19 +101,40 @@ class retry_agent extends uvm_agent;
     begin
       uvm_config_db#(virtual retry_intf) :: set(
                                       this,
-                                       "monitor",
+                                       "ctrl_flt_pkr_monitor",
                                        "vif",
                                        vif
       );
         
-      
       uvm_config_db#(virtual retry_intf) :: set(
                                       this,
-                                      "driver",
+                                       "reg_file_monitor",
+                                       "vif",
+                                       vif
+      );
+
+
+      uvm_config_db#(virtual retry_intf) :: set(
+                                      this,
+                                       "unpacker_monitor",
+                                       "vif",
+                                       vif
+      );
+
+      uvm_config_db#(virtual retry_intf) :: set(
+                                      this,
+                                      "controller_monitor",
                                       "vif",
                                       vif
       );
         
+
+      uvm_config_db#(virtual retry_intf) :: set(
+                                      this,
+                                       "driver",
+                                       "vif",
+                                       vif
+      );
         
     end
     
