@@ -66,10 +66,22 @@ class ctrl_flt_pkr_retry_monitor extends uvm_monitor;
   
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    ctrl_flt_pkr_retry_seq.retry_num_retry= 9 ;
+    $display("run_phase of ctrl_flt_pkr_retry_monitor");
+    forever begin
+    @(posedge vif.i_clk)
+    ctrl_flt_pkr_retry_seq.i_pl_lnk_up = monitor_vif.i_pl_lnk_up;
+    ctrl_flt_pkr_retry_seq.i_pl_state_sts = monitor_vif.i_pl_state_sts;
+    ctrl_flt_pkr_retry_seq.retry_set_ack_bit = monitor_vif.retry_set_ack_bit;
+    ctrl_flt_pkr_retry_seq.retry_num_retry = monitor_vif.retry_num_retry;
+    ctrl_flt_pkr_retry_seq.retry_num_phy_reinit = monitor_vif.retry_num_phy_reinit;
+    ctrl_flt_pkr_retry_seq.retry_num_ack = monitor_vif.retry_num_ack;
+    ctrl_flt_pkr_retry_seq.retry_num_free_buff = monitor_vif.retry_num_free_buff;
+    ctrl_flt_pkr_retry_seq.retry_eseq = monitor_vif.retry_eseq;
+    ctrl_flt_pkr_retry_seq.retry_wrt_ptr = monitor_vif.retry_wrt_ptr;
+    ctrl_flt_pkr_retry_seq.retry_llrb_flit = monitor_vif.retry_llrb_flit;
 
     ctrl_flt_pkr_retry_port.write(ctrl_flt_pkr_retry_seq);
-    $display("run_phase of ctrl_flt_pkr_retry_monitor");
+   end
   endtask
   
 endclass
