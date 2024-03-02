@@ -54,8 +54,22 @@ import reg_file_retry_seq_item_pkg::*;
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
     reg_file_retry_mon_seq.i_register_file_retry_threshold= 15;
+    forever begin   
+    @(posedge vif.i_clk)
+    reg_file_retry_seq.i_register_file_interface_sel = vif.i_register_file_interface_sel;
+    reg_file_retry_seq.i_register_file_retry_threshold = vif.i_register_file_retry_threshold;
+    reg_file_retry_seq.i_register_file_reinit_threshold = vif.i_register_file_reinit_threshold;
+    reg_file_retry_seq.i_register_file_llr_wrap_value = vif.i_register_file_llr_wrap_value;
+    reg_file_retry_seq.i_register_file_retry_timeout_max_transfers = vif.i_register_file_retry_timeout_max_transfers;
+    reg_file_retry_seq.REINIT_Threshold_hit = vif.REINIT_Threshold_hit;
+    reg_file_retry_seq.Retry_Threshold_hit = vif.Retry_Threshold_hit;
+    reg_file_retry_seq.Retry_Threshold_hit_en = vif.Retry_Threshold_hit_en;
+    reg_file_retry_seq.REINIT_Threshold_hit_en = vif.REINIT_Threshold_hit_en;
+    reg_file_retry_seq.Link_Failure_Indicator_Register = vif.Link_Failure_Indicator_Register;
+    reg_file_retry_seq.LL_Retry_Buffer_Consumed = vif.LL_Retry_Buffer_Consumed;
 
-    reg_file_retry_port.write(reg_file_retry_mon_seq);
+    reg_file_retry_port.write(reg_file_retry_seq);
+    end
     $display("run_phase of unpacker_retry_monitor, o_lp_state_req = %d", vif.o_lp_state_req);
   endtask
 
