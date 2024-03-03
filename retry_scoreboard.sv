@@ -15,7 +15,6 @@ class retry_scoreboard extends uvm_scoreboard;
   
   `uvm_component_utils(retry_scoreboard);
   
-virtual retry_intf vif;
 
   controller_retry_seq_item  controller_retry_seq;
   reg_file_retry_seq_item  reg_file_retry_seq;
@@ -56,7 +55,8 @@ virtual retry_intf vif;
     //---------------------------------------------//
     //---------------------------------------------//
 
-
+    
+    
     //---------------------------------------------------------------------------//
     //---defining fifos that receive seq items from monitors, exports and ports that gets seq items from fifos-----//
     //---------------------------------------------------------------------------//
@@ -78,15 +78,6 @@ virtual retry_intf vif;
     $display("build_phase of retry_scoreboard is on the wheel!!");
     
     
-    if (!uvm_config_db#(virtual retry_intf)::get(
-                                        this ,
-                                        "",
-                                        "vif" , 
-                                        vif
-                                        ) 
-       )
-      
-        `uvm_fatal(get_full_name() , "Error in retry_agent !#");
     
   endfunction
   
@@ -110,20 +101,70 @@ virtual retry_intf vif;
     
 
   endfunction
+  // localparam RB_DEPTH = 64;
+  // localparam RB_WIDTH = 528;
+
+  // //--modelling Notes ------------------//
+  // var bit [RB_WIDTH-1 : 0] LLRB [RB_DEPTH-1 : 0];
   
+  // %%%% PHY layer state is passed to LRSM_model and RRSM_model functions &&&& it's supposed not to affect LLRB
+  
+  //-----------------------------------//
+  // crc_error_reached = 0;
+  int seq_item_no = 0;
   virtual task run_phase (uvm_phase phase);  
     super.run_phase(phase);
-    phase.raise_objection(this);
+   
     $display("run_phase of retry_scorreboard");
-    controller_tlm_fifo.get(controller_retry_seq);
-    reg_file_tlm_fifo.get(reg_file_retry_seq);
-    unpacker_tlm_fifo.get(unpacker_retry_seq);
-    ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
-    $display("working on it %d %d %d %d" ,reg_file_retry_seq.i_register_file_retry_threshold,  unpacker_retry_seq.unpacker_llctrl , controller_retry_seq.o_lp_state_req , ctrl_flt_pkr_retry_seq.retry_num_retry);
+    phase.raise_objection(this);
+    forever begin
+      
+      controller_tlm_fifo.get(controller_retry_seq);
+      reg_file_tlm_fifo.get(reg_file_retry_seq);
+      unpacker_tlm_fifo.get(unpacker_retry_seq);
+      ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
+      
+      fork
+        // LRSM_model();
+        tryyy(reg_file_retry_seq);
+        // RRSM_model();
+
+      join_none
+      
+    end
     phase.drop_objection(this);
 
   endtask
   
+  task  tryyy(reg_file_retry_seq_item a);
+    #8
+    $display("seq_item_no =%d, message 1:: reg_file_retry_seq_item.Retry_Threshold_hit_en = %d , @time = %t" ,seq_item_no ,a.Retry_Threshold_hit_en, $time);
+    #9
+    $display("seq_item_no =%d, message 2:: reg_file_retry_seq_item.Retry_Threshold_hit_en = %d , @time = %t" ,seq_item_no ,a.Retry_Threshold_hit_en, $time);
+    seq_item_no++;
+  endtask //
+  // virtual task LRSM_model(inputs to llrsm, outputs that mainly depend on lrsm , ref crc_error_reached);
+  //    LLRB_LRSM_model();
+
+  //    if(crc_error && !PHY_reinit_raised || crc_error_reached)
+  //    begin
+  //     crc_error_reached = 1;
+  //     1-send req sequence and wait_on req sequence sent flag reaches ++ check that any thing received except for ack is discarded 
+  //     2-after that wait_on ack sequence sent flag according to timeout threshold
+  //         a) If ack reaches before timeout ---> Check that llrb increases eseq + Check that valid flits received from PHY layer
+  //         b) If ack didnot reach before timeout  ---> go to step 1 (we will make step 1 as a function)
+  //    end
+
+  //    else if(PHY_reinit_raised)
+  //    begin
+  //     wait_on link_up signal , then check on sent req signal raised and continue the same retry flow
+  //    end
+  // endtask
+
+  // virtual task RRSM_model();
+  //   LLRB_RRSM_model();
+    
+  // endtask
   
 endclass
 

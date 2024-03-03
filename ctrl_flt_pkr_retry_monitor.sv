@@ -68,7 +68,7 @@ class ctrl_flt_pkr_retry_monitor extends uvm_monitor;
     super.run_phase(phase);
     $display("run_phase of ctrl_flt_pkr_retry_monitor");
     forever begin
-    @(posedge vif.i_clk)
+    @(posedge monitor_vif.i_clk)
     ctrl_flt_pkr_retry_seq.i_pl_lnk_up <= monitor_vif.i_pl_lnk_up;
     ctrl_flt_pkr_retry_seq.i_pl_state_sts <= monitor_vif.i_pl_state_sts;
     ctrl_flt_pkr_retry_seq.retry_set_ack_bit <= monitor_vif.retry_set_ack_bit;
