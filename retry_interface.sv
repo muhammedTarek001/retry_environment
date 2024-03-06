@@ -16,11 +16,7 @@ logic [3:0]      i_pl_state_sts;
 //---------------------------------------
 // input signals 
 logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
-<<<<<<< Updated upstream
-           	 controller_ack_sent_flag, controller_req_sent_flag,  
-=======
            	 controller_ack_sent_flag, controller_req_sent_flag, 
->>>>>>> Stashed changes
 	   	 controller_inc_time_out_retry, 
             	 controller_wr_en, controller_rd_en;
 logic            initialization_done, rd_ptr_eseq_set;
@@ -83,13 +79,9 @@ logic [7:0]      retry_num_ack, retry_num_free_buff,
 // output to MUX-2
 logic [527 :0]   retry_llrb_flit;
       
-<<<<<<< Updated upstream
-
-=======
 // states
 logic [3:0] LRSM;
 logic [2:0] RRSM;
->>>>>>> Stashed changes
 //---------------------------------------
 //controller_monitor modport  
 //---------------------------------------
