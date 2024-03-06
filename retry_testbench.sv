@@ -9,28 +9,6 @@ import uvm_pkg::*;
 
   
 
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // //---------------------------------------
 // //declaring the signals
 // //---------------------------------------
@@ -188,19 +166,6 @@ Retry_Top_Module u0_retry (
 .REINIT_Threshold_hit_en ( retry_if.REINIT_Threshold_hit_en)
 );
 
-
-
-
-
-
-
-
-
-
-
-
-  
-  // retry_top_intf_port u0_retry(retry_if);
 
 initial
 begin
