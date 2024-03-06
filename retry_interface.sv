@@ -8,37 +8,48 @@ logic      	 i_rst_n;
 //---------------------------------------
 //physical layer signals
 //---------------------------------------
-logic     	 i_pl_lnk_up;
-logic [3:0]      i_pl_state_sts; 
+logic     	     i_pl_lnk_up = 1;            //PHY layer is up         
+logic [3:0]      i_pl_state_sts = 4'b1111;   //if i_pl_state_sts == 0 -----> RETRY_PHY_REINIT state reached 
 
 //---------------------------------------
 //controller signals
 //---------------------------------------
 // input signals 
-logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
-           	 controller_ack_sent_flag, controller_req_sent_flag, 
-	   	 controller_inc_time_out_retry, 
-            	 controller_wr_en, controller_rd_en;
-logic            initialization_done, rd_ptr_eseq_set;
-logic [3:0]      o_lp_state_req =5 ;
+logic     	 controller_dec_num_ack; 
+logic controller_llcrd_full_ack_sent; 
+logic 	 controller_ack_sent_flag; 
+logic controller_req_sent_flag; 
+logic  controller_inc_time_out_retry; 
+logic 	 controller_wr_en; 
+logic controller_rd_en;
+logic            initialization_done; 
+logic rd_ptr_eseq_set;
+logic [3:0]      o_lp_state_req;
 
 // output signals//
-logic 		retry_send_ack_seq, retry_phy_reinit_req, 
-                retry_send_req_seq, retry_link_failure_sig, 
-	        retry_stop_read;
+logic 		retry_send_ack_seq; 
+logic retry_phy_reinit_req; 
+logic retry_send_req_seq; 
+logic retry_link_failure_sig; 
+logic 	        retry_stop_read;
 
 //---------------------------------------
 //unpacker signals
 //---------------------------------------
 //inputs
 logic	         discard_received_flits;
-logic     	 unpacker_req_seq_flag, unpacker_flit_type, 
-          	 unpacker_all_data_flit_flag, unpacker_valid_sig, 
-	  	 unpacker_ack_seq_flag, unpacker_valid_crc,  
-          	 unpacker_empty_bit;
-logic [3:0]      unpacker_llctrl_subtype, unpacker_llctrl;
+logic     	 unpacker_req_seq_flag; 
+logic unpacker_flit_type; 
+logic 	 unpacker_all_data_flit_flag; 
+logic unpacker_valid_sig; 
+logic 	  	 unpacker_ack_seq_flag; 
+logic unpacker_valid_crc; 
+logic   unpacker_empty_bit;
+logic [3:0]      unpacker_llctrl_subtype;
+logic [3:0]       unpacker_llctrl;
 logic [4:0]      unpacker_retryreq_num;
-logic [7:0]      unpacker_full_ack, unpacker_rdptr_eseq_num;
+logic [7:0]      unpacker_full_ack;
+logic [7:0]      unpacker_rdptr_eseq_num;
 
 //outputs
 logic            retry_exist_retry_state;
@@ -49,14 +60,18 @@ logic            retry_exist_retry_state;
 //--------------------------------------- 
 //inputs
 logic            i_register_file_interface_sel;
-logic [4:0]      i_register_file_retry_threshold, 
-                 i_register_file_reinit_threshold;
+logic [4:0]      i_register_file_retry_threshold
+logic [4:0]      i_register_file_reinit_threshold;
 logic [7:0]      i_register_file_llr_wrap_value;                 
 logic [12:0]     i_register_file_retry_timeout_max_transfers;
 
 //outputs
-logic            REINIT_Threshold_hit, Retry_Threshold_hit,
-                 Retry_Threshold_hit_en, REINIT_Threshold_hit_en,
+logic            REINIT_Threshold_hit; 
+logic Retry_Threshold_hit; 
+logic
+                 Retry_Threshold_hit_en; 
+logic REINIT_Threshold_hit_en; 
+logic
 		 Link_Failure_Indicator_Register;
 logic [7:0]      LL_Retry_Buffer_Consumed;
 
@@ -72,9 +87,12 @@ logic            retry_set_ack_bit;
  
                 
 //-------outputs to control flit packer----------//
-logic [4:0]      retry_num_retry, retry_num_phy_reinit;
-logic [7:0]      retry_num_ack, retry_num_free_buff, 
-		 retry_eseq, retry_wrt_ptr;
+logic [4:0]      retry_num_retry
+logic [4:0] retry_num_phy_reinit;
+logic [7:0]      retry_num_ack;
+logic [7:0] retry_num_free_buff;
+logic [7:0]		 retry_eseq;
+logic [7:0] retry_wrt_ptr;
 
 // output to MUX-2
 logic [527 :0]   retry_llrb_flit;
