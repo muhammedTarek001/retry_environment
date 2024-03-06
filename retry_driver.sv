@@ -92,17 +92,12 @@ class retry_driver extends uvm_driver #(retry_seq_item);
       system_reseted_flag = 1;
       total_retry_seq_item.i_rst_n = 1;
     end
-    //---------controller signals-------------------//
-    vif.controller_dec_num_ack <= total_retry_seq_item.controller_dec_num_ack;
-    vif.controller_llcrd_full_ack_sent<= total_retry_seq_item.controller_llcrd_full_ack_sent;
-    vif.controller_ack_sent_flag<= total_retry_seq_item.controller_ack_sent_flag;
-    vif.controller_req_sent_flag<= total_retry_seq_item.controller_req_sent_flag;
-    vif.controller_inc_time_out_retry<= total_retry_seq_item.controller_inc_time_out_retry;
-    vif.controller_wr_en<= total_retry_seq_item.controller_wr_en;
-    vif.controller_rd_en<= total_retry_seq_item.controller_rd_en;
-    vif.initialization_done<= total_retry_seq_item.initialization_done;
-    vif.rd_ptr_eseq_set<= total_retry_seq_item.rd_ptr_eseq_set;
-    vif.o_lp_state_req<= total_retry_seq_item.o_lp_state_req;
+    //---------register file signals-------------------//
+    vif.i_register_file_interface_sel <= total_retry_seq_item.i_register_file_interface_sel;
+    vif.i_register_file_retry_threshold <= total_retry_seq_item.i_register_file_retry_threshold;
+    vif.i_register_file_reinit_threshold <= total_retry_seq_item.i_register_file_reinit_threshold;
+    vif.i_register_file_llr_wrap_value <= total_retry_seq_item.i_register_file_llr_wrap_value ;
+    vif.i_register_file_retry_timeout_max_transfers <= total_retry_seq_item.i_register_file_retry_timeout_max_transfers ;
 
 
 
@@ -138,6 +133,8 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     vif.initialization_done <= total_retry_seq_item.initialization_done ;
     vif.rd_ptr_eseq_set <= total_retry_seq_item.rd_ptr_eseq_set ;
     vif.o_lp_state_req <= total_retry_seq_item.o_lp_state_req ;
+
+    vif.crc_generator_flit_w_crc <= total_retry_seq_item.crc_generator_flit_w_crc;
     
     // $display("vif.retry_send_req_seq = %d" , vif.retry_send_req_seq);
     end

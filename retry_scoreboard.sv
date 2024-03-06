@@ -132,7 +132,7 @@ class retry_scoreboard extends uvm_scoreboard;
       reg_file_tlm_fifo.get(reg_file_retry_seq);
       unpacker_tlm_fifo.get(unpacker_retry_seq);
       ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
-      
+      monitor_retry_req();
     end
     phase.drop_objection(this);
 
