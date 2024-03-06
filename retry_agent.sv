@@ -16,7 +16,7 @@ import controller_retry_seq_item_pkg::*;
 import reg_file_retry_seq_item_pkg::*;
 import ctrl_flt_pkr_retry_seq_item_pkg::*;
 import unpacker_retry_seq_item_pkg::*;
-import env_config_pkg::*;
+import retry_env_config_pkg::*;
 
 
 class retry_agent extends uvm_agent;

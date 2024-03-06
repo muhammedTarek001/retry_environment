@@ -1,12 +1,12 @@
 
 
-package env_pkg;
+package retry_env_pkg;
 
 import uvm_pkg::*;
 import agent_pkg::*;
 import retry_subsc_pkg::*;
 import sb_pkg::*;
-import env_config_pkg::*;
+import retry_env_config_pkg::*;
 
 
 `include "uvm_macros.svh"
