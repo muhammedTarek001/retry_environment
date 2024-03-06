@@ -7,10 +7,7 @@ import uvm_pkg::*;
 `include "uvm_macros.svh"
 //including interfcae and testcase files
 
-  //---------------------------------------
-  //clock and reset signal declaration
-  //---------------------------------------
-  bit i_clk;
+  
 
   
 
@@ -123,7 +120,10 @@ import uvm_pkg::*;
 
 
 
-
+  //---------------------------------------
+  //clock and reset signal declaration
+  //---------------------------------------
+  bit i_clk;
 
   //---------------------------------------
   //clock generation
@@ -135,7 +135,6 @@ import uvm_pkg::*;
   //---------------------------------------
   retry_intf retry_if(i_clk);
   
-// .i_clk ( retry_if.i_clk;
 Retry_Top_Module u0_retry (
 //--------module inputs----------------------//
 .i_clk(i_clk),
