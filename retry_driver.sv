@@ -67,7 +67,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
   endtask //
   
   
-  
+  bit system_reseted_flag = 0;
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
     //-------cxs interface signal-------------//
@@ -79,9 +79,19 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     //----------------------------------------------//
 
     $display("run_phase of retry_driver");
+   
+    total_retry_seq_item.i_rst_n = 0;
+    
     force_retry_req();
     forever begin
     @(posedge vif.i_clk)
+    
+    vif.i_rst_n <= total_retry_seq_item.i_rst_n;
+    if(!system_reseted_flag)
+    begin
+      system_reseted_flag = 1;
+      total_retry_seq_item.i_rst_n = 1;
+    end
     //---------controller signals-------------------//
     vif.controller_dec_num_ack <= total_retry_seq_item.controller_dec_num_ack;
     vif.controller_llcrd_full_ack_sent<= total_retry_seq_item.controller_llcrd_full_ack_sent;
@@ -93,7 +103,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     vif.initialization_done<= total_retry_seq_item.initialization_done;
     vif.rd_ptr_eseq_set<= total_retry_seq_item.rd_ptr_eseq_set;
     vif.o_lp_state_req<= total_retry_seq_item.o_lp_state_req;
-    
+
 
 
     //---------unpacker signals-------------------//
@@ -129,7 +139,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     vif.rd_ptr_eseq_set <= total_retry_seq_item.rd_ptr_eseq_set ;
     vif.o_lp_state_req <= total_retry_seq_item.o_lp_state_req ;
     
-    $display("vif.retry_send_req_seq = %d" , vif.retry_send_req_seq);
+    // $display("vif.retry_send_req_seq = %d" , vif.retry_send_req_seq);
     end
 
   endtask

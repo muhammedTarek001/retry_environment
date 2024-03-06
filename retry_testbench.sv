@@ -204,9 +204,9 @@ Retry_Top_Module u0_retry (
 
 initial
 begin
-uvm_config_db#(virtual retry_intf)::set(null,"","vif",retry_if);
-`uvm_info("retry", "display", UVM_LOW);
-  $display("dut is properly connected to intf, %d" ,u0_retry.o_lp_state_req);
+uvm_config_db#(virtual retry_intf)::set(null,"uvm_test_top","vif",retry_if);
+// `uvm_info("retry", "display", UVM_LOW);
+  // $display("dut is properly connected to intf, %d" ,u0_retry.o_lp_state_req);
  run_test("retry_test");
 end
 

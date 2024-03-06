@@ -127,13 +127,12 @@ class retry_scoreboard extends uvm_scoreboard;
     $display("run_phase of retry_scorreboard");
     phase.raise_objection(this);
     forever begin
-      
+      // $display("i_register_file_llr_wrap_value = %d" , reg_file_retry_seq.i_register_file_llr_wrap_value);
       controller_tlm_fifo.get(controller_retry_seq);
       reg_file_tlm_fifo.get(reg_file_retry_seq);
       unpacker_tlm_fifo.get(unpacker_retry_seq);
       ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
       
-
     end
     phase.drop_objection(this);
 

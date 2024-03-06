@@ -95,7 +95,7 @@ class retry_env extends uvm_env;
       uvm_config_db#(virtual retry_intf) :: set(
                                       this,
                                        "agent",
-                                       "retry_vif",
+                                       "vif",
                                        retry_vif
       );
         
