@@ -16,7 +16,7 @@ logic [3:0]      i_pl_state_sts;
 //---------------------------------------
 // input signals 
 logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
-           	 controller_ack_sent_flag, controller_req_sent_flag, 
+           	 controller_ack_sent_flag, controller_req_sent_flag,  
 	   	 controller_inc_time_out_retry, 
             	 controller_wr_en, controller_rd_en;
 logic            initialization_done, rd_ptr_eseq_set;
