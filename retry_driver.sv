@@ -3,7 +3,7 @@
 
 
 
-package _retry_driver_pkg;
+package retry_driver_pkg;
 import uvm_pkg::*;
 import retry_seq_item_pkg::*;
 `include "uvm_macros.svh"
@@ -27,7 +27,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     total_retry_seq_item = retry_seq_item::type_id::create("total_retry_seq_item");
     $display("build_phase of retry_driver is on the wheel!!");
 
-    if (!uvm_config_db#(virtual intf)::get(
+    if (!uvm_config_db#(virtual retry_intf)::get(
                                         this ,
                                         "",
                                         "vif" , 
@@ -49,14 +49,38 @@ class retry_driver extends uvm_driver #(retry_seq_item);
   endfunction
   
   
-  
+  task force_retry_req();
+    total_retry_seq_item.unpacker_valid_crc = 0;
+    total_retry_seq_item.unpacker_flit_type = 0;
+    total_retry_seq_item.unpacker_valid_sig = 1;
+    total_retry_seq_item.i_register_file_llr_wrap_value = 8;
+    total_retry_seq_item.i_pl_state_sts = 4'b1;
+    total_retry_seq_item.controller_wr_en = 1'b1;
+    //unpacker_rdptr_eseq_num == 0
+    //always monitor LL_Retry_Buffer_Consumed
+    //monitor retry_num_ack
+    //retry_wrt_ptr
+  endtask 
+
+  task  retry_req_sent();
+    
+  endtask //
   
   
   
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    $display("run_phase of retry_driver");
+    //-------cxs interface signal-------------//
+    total_retry_seq_item.i_register_file_interface_sel = 0;
+    //---------------------------------------//
+    //-----------PHY layer init signals---------------//
+    total_retry_seq_item.initialization_done = 1;
+    total_retry_seq_item.i_pl_lnk_up = 1;
+    //----------------------------------------------//
 
+    $display("run_phase of retry_driver");
+    force_retry_req();
+    $display("total_retry_seq_item.unpacker_valid_sig = %d" , total_retry_seq_item.unpacker_valid_sig);
     forever begin
     @(posedge vif.i_clk)
     //---------controller signals-------------------//

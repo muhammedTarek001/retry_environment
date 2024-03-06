@@ -36,7 +36,7 @@ begin
 end
 uvm_config_db#(virtual retry_intf)::set(this,"env","retry_vif",vif);
 //factory.print();
-config_obj.agents_are_active = 0;
+config_obj.agents_are_active = 1;
 config_obj.has_sb = 1;
 config_obj.has_subsc = 1;
 

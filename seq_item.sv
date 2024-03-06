@@ -27,7 +27,7 @@ rand bit         initialization_done, rd_ptr_eseq_set;
 rand bit [3:0]   o_lp_state_req;
 
 // output signals//
-bit 		retry_send_ack_seq, retry_phy_reinit_req, 
+logic 		retry_send_ack_seq, retry_phy_reinit_req, 
                 retry_send_req_seq, retry_link_failure_sig, 
 	        retry_stop_read;
 
@@ -44,7 +44,7 @@ rand bit [4:0]   unpacker_retryreq_num;
 rand bit [7:0]   unpacker_full_ack, unpacker_rdptr_eseq_num;
 
 //outputs
-bit              retry_exist_retry_state;
+logic              retry_exist_retry_state;
 
 
 //------register file signals-----//
@@ -57,10 +57,10 @@ rand bit [7:0]   i_register_file_llr_wrap_value;
 rand bit [12:0]  i_register_file_retry_timeout_max_transfers;
 
 //outputs
-bit              REINIT_Threshold_hit, Retry_Threshold_hit,
+logic              REINIT_Threshold_hit, Retry_Threshold_hit,
                  Retry_Threshold_hit_en, REINIT_Threshold_hit_en,
 		 Link_Failure_Indicator_Register;
-bit [7:0]        LL_Retry_Buffer_Consumed;
+logic [7:0]        LL_Retry_Buffer_Consumed;
 
 
 //-------CRC generator signals------//
@@ -70,16 +70,16 @@ rand bit [527 :0]   crc_generator_flit_w_crc;
  
 
 //-------output to packer ---------------//   
-bit              retry_set_ack_bit; 
+logic              retry_set_ack_bit; 
  
                 
 //-------outputs to control flit packer----------//
-bit [4:0]      retry_num_retry, retry_num_phy_reinit;
-bit [7:0]      retry_num_ack, retry_num_free_buff, 
+logic [4:0]      retry_num_retry, retry_num_phy_reinit;
+logic [7:0]      retry_num_ack, retry_num_free_buff, 
 	       retry_eseq, retry_wrt_ptr;
 
 // output to MUX-2
-bit [527 :0]   retry_llrb_flit;
+logic [527 :0]   retry_llrb_flit;
 
 endclass
 endpackage
