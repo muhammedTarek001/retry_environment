@@ -8,8 +8,8 @@ logic      	 i_rst_n;
 //---------------------------------------
 //physical layer signals
 //---------------------------------------
-logic     	     i_pl_lnk_up = 1;            //PHY layer is up         
-logic [3:0]      i_pl_state_sts = 4'b1111;   //if i_pl_state_sts == 0 -----> RETRY_PHY_REINIT state reached 
+logic     	     i_pl_lnk_up;            //PHY layer is up         
+logic [3:0]      i_pl_state_sts ;   //if i_pl_state_sts == 0 -----> RETRY_PHY_REINIT state reached 
 
 //---------------------------------------
 //controller signals
@@ -97,6 +97,10 @@ logic [7:0] retry_wrt_ptr;
 // output to MUX-2
 logic [527 :0]   retry_llrb_flit;
       
+
+// states
+logic [3:0] LRSM;
+logic [2:0] RRSM;
 
 //---------------------------------------
 //controller_monitor modport  
