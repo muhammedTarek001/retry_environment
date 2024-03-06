@@ -80,7 +80,6 @@ class retry_driver extends uvm_driver #(retry_seq_item);
 
     $display("run_phase of retry_driver");
     force_retry_req();
-    $display("total_retry_seq_item.unpacker_valid_sig = %d" , total_retry_seq_item.unpacker_valid_sig);
     forever begin
     @(posedge vif.i_clk)
     //---------controller signals-------------------//
@@ -129,7 +128,8 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     vif.initialization_done <= total_retry_seq_item.initialization_done ;
     vif.rd_ptr_eseq_set <= total_retry_seq_item.rd_ptr_eseq_set ;
     vif.o_lp_state_req <= total_retry_seq_item.o_lp_state_req ;
-
+    
+    $display("vif.retry_send_req_seq = %d" , vif.retry_send_req_seq);
     end
 
   endtask
