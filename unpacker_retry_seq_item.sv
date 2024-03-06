@@ -14,7 +14,7 @@ endfunction
 rand bit	 discard_received_flits;
 rand bit 	 unpacker_req_seq_flag, unpacker_flit_type, 
           	 unpacker_all_data_flit_flag, unpacker_valid_sig, 
-	  	 unpacker_ack_seq_flag, unpacker_valid_crc,  
+	  	     unpacker_ack_seq_flag, unpacker_valid_crc,  
           	 unpacker_empty_bit;
 rand bit [3:0]   unpacker_llctrl_subtype, unpacker_llctrl;
 rand bit [4:0]   unpacker_retryreq_num;
