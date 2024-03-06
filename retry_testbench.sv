@@ -10,26 +10,204 @@ import uvm_pkg::*;
   //---------------------------------------
   //clock and reset signal declaration
   //---------------------------------------
-  bit clk;
+  bit i_clk;
 
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //---------------------------------------
+// //declaring the signals
+// //---------------------------------------
+// wire logic      	 i_rst_n;
+
+// //---------------------------------------
+// //physical layer signals
+// //---------------------------------------
+// wire logic     	 i_pl_lnk_up;
+// wire logic [3:0]      i_pl_state_sts; 
+
+// //---------------------------------------
+// //controller signals
+// //---------------------------------------
+// // input signals 
+// wire logic     	controller_dec_num_ack, controller_llcrd_full_ack_sent, 
+//            	    controller_ack_sent_flag, controller_req_sent_flag, 
+// 	   	        controller_inc_time_out_retry, 
+//             	controller_wr_en, controller_rd_en;
+
+// wire logic            initialization_done, rd_ptr_eseq_set;
+
+// wire logic [3:0]      o_lp_state_req;
+
+// // output signals//
+// wire logic 		retry_send_ack_seq, retry_phy_reinit_req, 
+//                 retry_send_req_seq, retry_link_failure_sig, 
+// 	            retry_stop_read;
+
+// //---------------------------------------
+// //unpacker signals
+// //---------------------------------------
+// //inputs
+// wire logic	         discard_received_flits;
+// wire logic     	     unpacker_req_seq_flag, unpacker_flit_type, 
+//           	         unpacker_all_data_flit_flag, unpacker_valid_sig, 
+// 	  	             unpacker_ack_seq_flag, unpacker_valid_crc,  
+//           	         unpacker_empty_bit;
+
+// wire logic [3:0]      unpacker_llctrl_subtype, unpacker_llctrl;
+// wire logic [4:0]      unpacker_retryreq_num;
+// wire logic [7:0]      unpacker_full_ack, unpacker_rdptr_eseq_num;
+
+// //outputs
+// wire logic            retry_exist_retry_state;
+
+
+// //---------------------------------------
+// //register file signals
+// //--------------------------------------- 
+// //inputs
+// wire logic            i_register_file_interface_sel;
+// wire logic [4:0]      i_register_file_retry_threshold, 
+//                       i_register_file_reinit_threshold;
+// wire logic [7:0]      i_register_file_llr_wrap_value;                 
+// wire logic [12:0]     i_register_file_retry_timeout_max_transfers;
+
+// //outputs
+// wire logic            REINIT_Threshold_hit, Retry_Threshold_hit,
+//                  Retry_Threshold_hit_en, REINIT_Threshold_hit_en,
+// 		 Link_Failure_Indicator_Register;
+// wire logic [7:0]      LL_Retry_Buffer_Consumed;
+
+
+// //---------------------------------------
+// //CRC generator signals
+// //---------------------------------------
+// wire logic [527 :0]   crc_generator_flit_w_crc;
+ 
+
+// //-------output to packer ---------------//   
+// wire logic            retry_set_ack_bit; 
+ 
+                
+// //-------outputs to control flit packer----------//
+// wire logic [4:0]      retry_num_retry, retry_num_phy_reinit;
+// wire logic [7:0]      retry_num_ack, retry_num_free_buff, 
+// 		              retry_eseq, retry_wrt_ptr;
+
+// // output to MUX-2
+// wire logic [527 :0]   retry_llrb_flit;
+
+
+
+
+
+
+
+
+
+
   //---------------------------------------
   //clock generation
   //---------------------------------------
-  always #5 clk = ~clk;
+  always #5 i_clk = ~i_clk;
   
   //---------------------------------------
   //interface instance
   //---------------------------------------
-  retry_intf retry_if(clk);
+  retry_intf retry_if(i_clk);
   
-  retry_top_intf_port u0_retry(retry_if);
+// .i_clk ( retry_if.i_clk;
+Retry_Top_Module u0_retry (
+//--------module inputs----------------------//
+.i_clk(i_clk),
+.i_rst_n ( retry_if.i_rst_n),
+.controller_dec_num_ack ( retry_if.controller_dec_num_ack),
+.controller_llcrd_full_ack_sent ( retry_if.controller_llcrd_full_ack_sent),
+.controller_ack_sent_flag ( retry_if.controller_ack_sent_flag),
+.unpacker_req_seq_flag ( retry_if.unpacker_req_seq_flag),
+.unpacker_flit_type ( retry_if.unpacker_flit_type),
+.unpacker_all_data_flit_flag ( retry_if.unpacker_all_data_flit_flag),
+.unpacker_valid_sig ( retry_if.unpacker_valid_sig),
+.unpacker_ack_seq_flag ( retry_if.unpacker_ack_seq_flag),
+.i_pl_lnk_up ( retry_if.i_pl_lnk_up),
+.unpacker_valid_crc ( retry_if.unpacker_valid_crc),
+.controller_req_sent_flag ( retry_if.controller_req_sent_flag),
+.unpacker_empty_bit ( retry_if.unpacker_empty_bit),
+.controller_inc_time_out_retry ( retry_if.controller_inc_time_out_retry),
+.controller_wr_en ( retry_if.controller_wr_en),
+.unpacker_full_ack ( retry_if.unpacker_full_ack),
+.i_register_file_llr_wrap_value ( retry_if.i_register_file_llr_wrap_value),
+.unpacker_rdptr_eseq_num ( retry_if.unpacker_rdptr_eseq_num),
+.unpacker_llctrl_subtype ( retry_if.unpacker_llctrl_subtype),
+.unpacker_llctrl ( retry_if.unpacker_llctrl),
+.i_pl_state_sts ( retry_if.i_pl_state_sts),
+.o_lp_state_req ( retry_if.o_lp_state_req),
+.i_register_file_retry_threshold ( retry_if.i_register_file_retry_threshold),
+.i_register_file_reinit_threshold ( retry_if.i_register_file_reinit_threshold),
+.unpacker_retryreq_num ( retry_if.unpacker_retryreq_num),
+.i_register_file_retry_timeout_max_transfers ( retry_if.i_register_file_retry_timeout_max_transfers),
+.crc_generator_flit_w_crc ( retry_if.crc_generator_flit_w_crc),
+.initialization_done ( retry_if.initialization_done),
+.discard_received_flits ( retry_if.discard_received_flits),
+.rd_ptr_eseq_set ( retry_if.rd_ptr_eseq_set),
+.i_register_file_interface_sel ( retry_if.i_register_file_interface_sel),
+
+
+//--------module outputs----------------------//
+.retry_num_ack   (retry_if.retry_num_ack),
+.retry_num_free_buff  (retry_if.retry_num_free_buff),
+.retry_eseq  ( retry_if.retry_eseq),
+.retry_num_retry   ( retry_if.retry_num_retry),
+.retry_num_phy_reinit   ( retry_if.retry_num_phy_reinit),
+.retry_llrb_flit  ( retry_if.retry_llrb_flit),
+.retry_wrt_ptr  ( retry_if.retry_wrt_ptr),
+.retry_exist_retry_state  ( retry_if.retry_exist_retry_state),
+.LL_Retry_Buffer_Consumed   ( retry_if.LL_Retry_Buffer_Consumed),
+.REINIT_Threshold_hit   ( retry_if.REINIT_Threshold_hit),
+.Retry_Threshold_hit  ( retry_if.Retry_Threshold_hit),
+.Link_Failure_Indicator_Register ( retry_if.Link_Failure_Indicator_Register),
+.Retry_Threshold_hit_en ( retry_if.Retry_Threshold_hit_en),
+.REINIT_Threshold_hit_en ( retry_if.REINIT_Threshold_hit_en)
+);
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  // retry_top_intf_port u0_retry(retry_if);
 
 initial
 begin
 uvm_config_db#(virtual retry_intf)::set(null,"","vif",retry_if);
 `uvm_info("retry", "display", UVM_LOW);
-  $display("dut is properly connected to intf, %d" ,u0_retry.u0_retry.o_lp_state_req);
+  $display("dut is properly connected to intf, %d" ,u0_retry.o_lp_state_req);
  run_test("retry_test");
 end
 

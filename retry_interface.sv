@@ -15,12 +15,13 @@ logic [3:0]      i_pl_state_sts;
 //controller signals
 //---------------------------------------
 // input signals 
-logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
-           	 controller_ack_sent_flag, controller_req_sent_flag, 
-	   	 controller_inc_time_out_retry, 
-            	 controller_wr_en, controller_rd_en;
+logic     	controller_dec_num_ack, controller_llcrd_full_ack_sent, 
+           	controller_ack_sent_flag, controller_req_sent_flag, 
+	   	    controller_inc_time_out_retry, 
+            controller_wr_en, controller_rd_en;
+			
 logic            initialization_done, rd_ptr_eseq_set;
-logic [3:0]      o_lp_state_req =5 ;
+logic [3:0]      o_lp_state_req ;
 
 // output signals//
 logic 		retry_send_ack_seq, retry_phy_reinit_req, 

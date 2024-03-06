@@ -19,27 +19,30 @@ wire logic [3:0]      i_pl_state_sts;
 //controller signals
 //---------------------------------------
 // input signals 
-wire logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
-           	 controller_ack_sent_flag, controller_req_sent_flag, 
-	   	 controller_inc_time_out_retry, 
-            	 controller_wr_en, controller_rd_en;
+wire logic     	controller_dec_num_ack, controller_llcrd_full_ack_sent, 
+           	    controller_ack_sent_flag, controller_req_sent_flag, 
+	   	        controller_inc_time_out_retry, 
+            	controller_wr_en, controller_rd_en;
+
 wire logic            initialization_done, rd_ptr_eseq_set;
+
 wire logic [3:0]      o_lp_state_req;
 
 // output signals//
 wire logic 		retry_send_ack_seq, retry_phy_reinit_req, 
                 retry_send_req_seq, retry_link_failure_sig, 
-	        retry_stop_read;
+	            retry_stop_read;
 
 //---------------------------------------
 //unpacker signals
 //---------------------------------------
 //inputs
 wire logic	         discard_received_flits;
-wire logic     	 unpacker_req_seq_flag, unpacker_flit_type, 
-          	 unpacker_all_data_flit_flag, unpacker_valid_sig, 
-	  	 unpacker_ack_seq_flag, unpacker_valid_crc,  
-          	 unpacker_empty_bit;
+wire logic     	     unpacker_req_seq_flag, unpacker_flit_type, 
+          	         unpacker_all_data_flit_flag, unpacker_valid_sig, 
+	  	             unpacker_ack_seq_flag, unpacker_valid_crc,  
+          	         unpacker_empty_bit;
+
 wire logic [3:0]      unpacker_llctrl_subtype, unpacker_llctrl;
 wire logic [4:0]      unpacker_retryreq_num;
 wire logic [7:0]      unpacker_full_ack, unpacker_rdptr_eseq_num;
@@ -54,7 +57,7 @@ wire logic            retry_exist_retry_state;
 //inputs
 wire logic            i_register_file_interface_sel;
 wire logic [4:0]      i_register_file_retry_threshold, 
-                 i_register_file_reinit_threshold;
+                      i_register_file_reinit_threshold;
 wire logic [7:0]      i_register_file_llr_wrap_value;                 
 wire logic [12:0]     i_register_file_retry_timeout_max_transfers;
 
@@ -78,7 +81,7 @@ wire logic            retry_set_ack_bit;
 //-------outputs to control flit packer----------//
 wire logic [4:0]      retry_num_retry, retry_num_phy_reinit;
 wire logic [7:0]      retry_num_ack, retry_num_free_buff, 
-		 retry_eseq, retry_wrt_ptr;
+		              retry_eseq, retry_wrt_ptr;
 
 // output to MUX-2
 wire logic [527 :0]   retry_llrb_flit;
