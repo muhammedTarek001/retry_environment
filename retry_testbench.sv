@@ -131,6 +131,7 @@ Retry_Top_Module u0_retry (
 .unpacker_empty_bit ( retry_if.unpacker_empty_bit),
 .controller_inc_time_out_retry ( retry_if.controller_inc_time_out_retry),
 .controller_wr_en ( retry_if.controller_wr_en),
+.controller_rd_en(retry_if.controller_rd_en) ,
 .unpacker_full_ack ( retry_if.unpacker_full_ack),
 .i_register_file_llr_wrap_value ( retry_if.i_register_file_llr_wrap_value),
 .unpacker_rdptr_eseq_num ( retry_if.unpacker_rdptr_eseq_num),

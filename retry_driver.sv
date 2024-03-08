@@ -56,6 +56,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     total_retry_seq_item.i_register_file_llr_wrap_value = 8;
     total_retry_seq_item.i_pl_state_sts = 4'b1;
     total_retry_seq_item.controller_wr_en = 1'b1;
+
     //unpacker_rdptr_eseq_num == 0
     //always monitor LL_Retry_Buffer_Consumed
     //monitor retry_num_ack
