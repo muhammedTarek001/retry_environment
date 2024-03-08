@@ -110,39 +110,42 @@ class retry_scoreboard extends uvm_scoreboard;
   // %%%% PHY layer state is passed to LRSM_model and RRSM_model functions &&&& it's supposed not to affect LLRB
   
   //-----------------------------------//
-  // crc_error_reached = 0;
-  int seq_item_no = 0;
+  
+  task monitor_retry_req();
+    @(posedge controller_retry_seq.retry_send_req_seq)
+    $display("retry_send_req_seq is raised @ time = %t" , $time);
+  endtask 
+
+  //unpacker_rdptr_eseq_num == 0
+    //always monitor LL_Retry_Buffer_Consumed
+    //monitor retry_num_ack
+    //retry_wrt_ptr
+
   virtual task run_phase (uvm_phase phase);  
     super.run_phase(phase);
    
     $display("run_phase of retry_scorreboard");
     phase.raise_objection(this);
     forever begin
-      
-      controller_tlm_fifo.get(controller_retry_seq);
-      reg_file_tlm_fifo.get(reg_file_retry_seq);
-      unpacker_tlm_fifo.get(unpacker_retry_seq);
-      ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
-      
       fork
-        // LRSM_model();
-        tryyy(reg_file_retry_seq);
-        // RRSM_model();
+        begin
+            monitor_retry_req();
+        end
 
-      join_none
+        begin
+            controller_tlm_fifo.get(controller_retry_seq);
+            reg_file_tlm_fifo.get(reg_file_retry_seq);
+            unpacker_tlm_fifo.get(unpacker_retry_seq);
+            ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
+        end
+      join
       
     end
     phase.drop_objection(this);
 
   endtask
   
-  task  tryyy(reg_file_retry_seq_item a);
-    #8
-    $display("seq_item_no =%d, message 1:: reg_file_retry_seq_item.Retry_Threshold_hit_en = %d , @time = %t" ,seq_item_no ,a.Retry_Threshold_hit_en, $time);
-    #9
-    $display("seq_item_no =%d, message 2:: reg_file_retry_seq_item.Retry_Threshold_hit_en = %d , @time = %t" ,seq_item_no ,a.Retry_Threshold_hit_en, $time);
-    seq_item_no++;
-  endtask //
+  
   // virtual task LRSM_model(inputs to llrsm, outputs that mainly depend on lrsm , ref crc_error_reached);
   //    LLRB_LRSM_model();
 

@@ -1,6 +1,7 @@
 package reg_file_retry_monitor_pkg ; 
 import uvm_pkg::*;
-import reg_file_retry_seq_item_pkg::*;  
+import reg_file_retry_seq_item_pkg::*; 
+import retry_seq_item_pkg::*; 
 `include "uvm_macros.svh"
 
   class reg_file_retry_monitor extends uvm_monitor;
@@ -26,6 +27,7 @@ import reg_file_retry_seq_item_pkg::*;
  //building the port & sequence item instances
  reg_file_retry_port = new("reg_file_retry_mon_port" , this);
  reg_file_retry_seq = reg_file_retry_seq_item::type_id::create("reg_file_retry_seq");
+ 
  if ( 
           !uvm_config_db#(virtual retry_intf)::get(
                                         this ,
@@ -53,8 +55,8 @@ import reg_file_retry_seq_item_pkg::*;
 
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    $display("run_phase of reg_file_retry_monitor");
-   forever begin   
+    
+    forever begin
     @(posedge vif.i_clk)
     reg_file_retry_seq.i_register_file_interface_sel = vif.i_register_file_interface_sel;
     reg_file_retry_seq.i_register_file_retry_threshold = vif.i_register_file_retry_threshold;
@@ -63,14 +65,15 @@ import reg_file_retry_seq_item_pkg::*;
     reg_file_retry_seq.i_register_file_retry_timeout_max_transfers = vif.i_register_file_retry_timeout_max_transfers;
     reg_file_retry_seq.REINIT_Threshold_hit = vif.REINIT_Threshold_hit;
     reg_file_retry_seq.Retry_Threshold_hit = vif.Retry_Threshold_hit;
-    reg_file_retry_seq.Retry_Threshold_hit_en = ~reg_file_retry_seq.Retry_Threshold_hit_en;
+    reg_file_retry_seq.Retry_Threshold_hit_en = vif.Retry_Threshold_hit_en;
     reg_file_retry_seq.REINIT_Threshold_hit_en = vif.REINIT_Threshold_hit_en;
     reg_file_retry_seq.Link_Failure_Indicator_Register = vif.Link_Failure_Indicator_Register;
     reg_file_retry_seq.LL_Retry_Buffer_Consumed = vif.LL_Retry_Buffer_Consumed;
 
-    reg_file_retry_seq.i_register_file_retry_threshold = 1 ;
+    
     reg_file_retry_port.write(reg_file_retry_seq);
     end
+    $display("run_phase of reg_file_retry_monitor");
   endtask
 
  endclass

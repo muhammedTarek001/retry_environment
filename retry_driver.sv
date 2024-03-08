@@ -53,28 +53,24 @@ class retry_driver extends uvm_driver #(retry_seq_item);
   
   
   
+  
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    $display("run_phase of retry_driver");
+    
 
+    $display("run_phase of retry_driver");
+   
     forever begin
     @(posedge vif.i_clk)
-    //---------controller signals-------------------//
-    vif.controller_dec_num_ack <= total_retry_seq_item.controller_dec_num_ack;
-    vif.controller_llcrd_full_ack_sent<= total_retry_seq_item.controller_llcrd_full_ack_sent;
-    vif.controller_ack_sent_flag<= total_retry_seq_item.controller_ack_sent_flag;
-    vif.controller_req_sent_flag<= total_retry_seq_item.controller_req_sent_flag;
-    vif.controller_inc_time_out_retry<= total_retry_seq_item.controller_inc_time_out_retry;
-    vif.controller_wr_en<= total_retry_seq_item.controller_wr_en;
-    vif.controller_rd_en<= total_retry_seq_item.controller_rd_en;
-    vif.initialization_done<= total_retry_seq_item.initialization_done;
-    vif.rd_ptr_eseq_set<= total_retry_seq_item.rd_ptr_eseq_set;
-    vif.o_lp_state_req<= total_retry_seq_item.o_lp_state_req;
-    vif.retry_send_ack_seq<= total_retry_seq_item.retry_send_ack_seq;
-    vif.retry_phy_reinit_req<= total_retry_seq_item.retry_phy_reinit_req;
-    vif.retry_send_req_seq<= total_retry_seq_item.retry_send_req_seq;
-    vif.retry_link_failure_sig<= total_retry_seq_item.retry_link_failure_sig;
-    vif.retry_stop_read<= total_retry_seq_item.retry_stop_read;
+    
+    vif.i_rst_n <= total_retry_seq_item.i_rst_n;
+    //---------register file signals-------------------//
+    vif.i_register_file_interface_sel <= total_retry_seq_item.i_register_file_interface_sel;
+    vif.i_register_file_retry_threshold <= total_retry_seq_item.i_register_file_retry_threshold;
+    vif.i_register_file_reinit_threshold <= total_retry_seq_item.i_register_file_reinit_threshold;
+    vif.i_register_file_llr_wrap_value <= total_retry_seq_item.i_register_file_llr_wrap_value ;
+    vif.i_register_file_retry_timeout_max_transfers <= total_retry_seq_item.i_register_file_retry_timeout_max_transfers ;
+
 
 
     //---------unpacker signals-------------------//

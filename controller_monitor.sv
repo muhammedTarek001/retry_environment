@@ -56,24 +56,34 @@ if (
     $display("run_phase of controller_retry_monitor");
 
     forever begin
-    @(posedge vif.i_clk)
-    controller_retry_seq.controller_dec_num_ack <= vif.controller_dec_num_ack;
-    controller_retry_seq.controller_llcrd_full_ack_sent <= vif.controller_llcrd_full_ack_sent;
-    controller_retry_seq.controller_ack_sent_flag <= vif.controller_ack_sent_flag;
-    controller_retry_seq.controller_req_sent_flag <= vif.controller_req_sent_flag;
-    controller_retry_seq.controller_inc_time_out_retry <= vif.controller_inc_time_out_retry;
-    controller_retry_seq.controller_wr_en <= vif.controller_wr_en;
-    controller_retry_seq.controller_rd_en <= vif.controller_rd_en;
-    controller_retry_seq.initialization_done <= vif.initialization_done;
-    controller_retry_seq.rd_ptr_eseq_set <= vif.rd_ptr_eseq_set;
-    controller_retry_seq.o_lp_state_req <= vif.o_lp_state_req;
-    controller_retry_seq.retry_send_ack_seq <= vif.retry_send_ack_seq;
-    controller_retry_seq.retry_phy_reinit_req <= vif.retry_phy_reinit_req;
-    controller_retry_seq.retry_send_req_seq <= vif.retry_send_req_seq;
-    controller_retry_seq.retry_link_failure_sig <= vif.retry_link_failure_sig;
-    controller_retry_seq.retry_stop_read <= vif.retry_stop_read;
+    fork
+      begin
+        @(posedge vif.i_clk)
+        controller_retry_seq.controller_dec_num_ack <= vif.controller_dec_num_ack;
+        controller_retry_seq.controller_llcrd_full_ack_sent <= vif.controller_llcrd_full_ack_sent;
+        controller_retry_seq.controller_ack_sent_flag <= vif.controller_ack_sent_flag;
+        controller_retry_seq.controller_req_sent_flag <= vif.controller_req_sent_flag;
+        controller_retry_seq.controller_inc_time_out_retry <= vif.controller_inc_time_out_retry;
+        controller_retry_seq.controller_wr_en <= vif.controller_wr_en;
+        controller_retry_seq.controller_rd_en <= vif.controller_rd_en;
+        controller_retry_seq.initialization_done <= vif.initialization_done;
+        controller_retry_seq.rd_ptr_eseq_set <= vif.rd_ptr_eseq_set;
+        controller_retry_seq.o_lp_state_req <= vif.o_lp_state_req;
+        controller_retry_seq.retry_send_ack_seq <= vif.retry_send_ack_seq;
+        controller_retry_seq.retry_phy_reinit_req <= vif.retry_phy_reinit_req;
+        controller_retry_seq.retry_send_req_seq <= vif.retry_send_req_seq;
+        controller_retry_seq.retry_link_failure_sig <= vif.retry_link_failure_sig;
+        controller_retry_seq.retry_stop_read <= vif.retry_stop_read;
 
-    controller_retry_port.write(controller_retry_seq);
+        controller_retry_port.write(controller_retry_seq);
+      end
+      
+      begin
+        wait(vif.retry_send_req_seq == 1)
+        $display("retry_send_req_seq is raised @ time = %t" , $time);
+      end
+    join_any
+    
    end
   endtask
 
