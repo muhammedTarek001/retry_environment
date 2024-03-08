@@ -3,7 +3,7 @@
 
 
 
-package _retry_driver_pkg;
+package retry_driver_pkg;
 import uvm_pkg::*;
 import retry_seq_item_pkg::*;
 `include "uvm_macros.svh"
