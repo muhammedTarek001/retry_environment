@@ -72,7 +72,13 @@ Retry_Top_Module u0_retry (
 .Retry_Threshold_hit  ( retry_if.Retry_Threshold_hit),
 .Link_Failure_Indicator_Register ( retry_if.Link_Failure_Indicator_Register),
 .Retry_Threshold_hit_en ( retry_if.Retry_Threshold_hit_en),
-.REINIT_Threshold_hit_en ( retry_if.REINIT_Threshold_hit_en)
+.REINIT_Threshold_hit_en ( retry_if.REINIT_Threshold_hit_en),
+.retry_stop_read(retry_if.retry_stop_read),
+.retry_send_req_seq(retry_if.retry_send_req_seq),
+.retry_phy_reinit_req(retry_if.retry_phy_reinit_req),
+.retry_send_ack_seq(retry_if.retry_send_ack_seq),
+.retry_set_ack_bit(retry_if.retry_set_ack_bit),
+.retry_link_failure_sig(retry_if.retry_link_failure_sig)
 );
 
 

@@ -30,6 +30,7 @@ class retry_sequence extends uvm_sequence;
     //-----------PHY layer init signals---------------//
     total_retry_seq_item.initialization_done = 1;
     total_retry_seq_item.i_pl_lnk_up = 1;
+    total_retry_seq_item.i_pl_state_sts = 4'b1;
     //----------------------------------------------//
     
     //--------setting llr wrap value fr LLRB-------//
@@ -55,7 +56,6 @@ class retry_sequence extends uvm_sequence;
     total_retry_seq_item.unpacker_flit_type = 0;
     total_retry_seq_item.unpacker_valid_sig = 1;
     total_retry_seq_item.i_register_file_llr_wrap_value = 8;
-    total_retry_seq_item.i_pl_state_sts = 4'b1;
     total_retry_seq_item.controller_wr_en = 1'b1;
 
     //unpacker_rdptr_eseq_num == 0
@@ -107,8 +107,8 @@ class retry_sequence extends uvm_sequence;
     $display("sequence_just_started!!! @time = %t" , $time);
     //-------reseting retry module-------------// 
     start_item(total_retry_seq_item);
-    $display("link_is_initialized @ time= %t" , $time);
-    // reset();
+    reset();
+    default_inputs();
     finish_item(total_retry_seq_item);    
     //----------------------------------------// 
     total_retry_seq_item.i_rst_n = 1;
@@ -117,14 +117,15 @@ class retry_sequence extends uvm_sequence;
     
     start_item(total_retry_seq_item);
     link_init_done();
-    finish_item(total_retry_seq_item);    
-    // ----------------------------------------// 
-    
-    //----------------force_retry_req------------// 
-    start_item(total_retry_seq_item);
-    force_retry_req();
     finish_item(total_retry_seq_item);   
-    //----------------------------------------// 
+    $display("initialization_done_from_sequence, @time= %t !!", $time); 
+    // ----------------------------------------// 
+    // default_inputs();
+    // //----------------force_retry_req------------// 
+    // start_item(total_retry_seq_item);
+    // force_retry_req();
+    // finish_item(total_retry_seq_item);   
+    // //----------------------------------------// 
 
   endtask
   

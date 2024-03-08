@@ -90,6 +90,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     vif.unpacker_full_ack <= total_retry_seq_item.unpacker_full_ack;  
     vif.unpacker_rdptr_eseq_num <= total_retry_seq_item.unpacker_rdptr_eseq_num;    
     vif.crc_generator_flit_w_crc <= total_retry_seq_item.crc_generator_flit_w_crc;
+    
 
     //----ctrl_flit_packer------------//
     vif.i_pl_lnk_up <= total_retry_seq_item.i_pl_lnk_up ;
