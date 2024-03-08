@@ -17,10 +17,10 @@ logic [3:0]      i_pl_state_sts;
 // input signals 
 logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
            	 controller_ack_sent_flag, controller_req_sent_flag, 
-	   	 controller_inc_time_out_retry, 
-            	 controller_wr_en, controller_rd_en;
-logic            initialization_done, rd_ptr_eseq_set;
-logic [3:0]      o_lp_state_req =5 ;
+	     	 controller_inc_time_out_retry, 
+             controller_wr_en, controller_rd_en;
+logic        initialization_done, rd_ptr_eseq_set;
+logic [3:0]      o_lp_state_req;
 
 // output signals//
 logic 		retry_send_ack_seq, retry_phy_reinit_req, 
@@ -30,7 +30,7 @@ logic 		retry_send_ack_seq, retry_phy_reinit_req,
 //---------------------------------------
 //unpacker signals
 //---------------------------------------
-//inputs
+// input signals 
 logic	         discard_received_flits;
 logic     	 unpacker_req_seq_flag, unpacker_flit_type, 
           	 unpacker_all_data_flit_flag, unpacker_valid_sig, 
