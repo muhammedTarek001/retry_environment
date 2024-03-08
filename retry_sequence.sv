@@ -108,23 +108,23 @@ class retry_sequence extends uvm_sequence;
     //-------reseting retry module-------------// 
     start_item(total_retry_seq_item);
     $display("link_is_initialized @ time= %t" , $time);
-    reset();
+    // reset();
     finish_item(total_retry_seq_item);    
     //----------------------------------------// 
     total_retry_seq_item.i_rst_n = 1;
     
-    //----------------link_init_done------------// 
+    // ----------------link_init_done------------// 
     
-    // start_item(total_retry_seq_item);
-    // link_init_done();
-    // finish_item(total_retry_seq_item);    
+    start_item(total_retry_seq_item);
+    link_init_done();
+    finish_item(total_retry_seq_item);    
+    // ----------------------------------------// 
+    
+    //----------------force_retry_req------------// 
+    start_item(total_retry_seq_item);
+    force_retry_req();
+    finish_item(total_retry_seq_item);   
     //----------------------------------------// 
-    
-    // //----------------force_retry_req------------// 
-    // start_item(total_retry_seq_item);
-    // force_retry_req();
-    // finish_item(total_retry_seq_item);   
-    // //----------------------------------------// 
 
   endtask
   

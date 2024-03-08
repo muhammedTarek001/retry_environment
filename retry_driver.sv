@@ -27,7 +27,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     total_retry_seq_item = retry_seq_item::type_id::create("total_retry_seq_item");
     $display("build_phase of retry_driver is on the wheel!!");
 
-    if (!uvm_config_db#(virtual intf)::get(
+    if (!uvm_config_db#(virtual retry_intf)::get(
                                         this ,
                                         "",
                                         "vif" , 

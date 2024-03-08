@@ -53,7 +53,7 @@ class retry_agent extends uvm_agent;
   virtual function void build_phase (uvm_phase phase);
     
     super.build_phase(phase);
-    $display("build_phase of retry_agent is on the wheel!! , vif = %p",vif);        
+    $display("build_phase of retry_agent!!");        
     //---getting env configuration from test---//
     uvm_config_db#(retry_env_config)::get(this , "" , "retry_module_env_config" , env_config_agent);
     env_config_agent = retry_env_config::type_id::create("env_config_agent");
@@ -166,11 +166,7 @@ class retry_agent extends uvm_agent;
   
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    $display("run_phase of retry_agent");
-    
-      wait(vif.retry_send_req_seq == 1)
-      $display("retry_send_req_seq is raised @ time = %t" , $time);
-      
+    $display("run_phase of retry_agent");  
   endtask
   
   
