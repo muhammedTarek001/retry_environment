@@ -11,15 +11,15 @@ super.new(name) ;
 endfunction   
                        
 //------controller signals-----//
-rand bit     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
+rand logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent, 
            	 controller_ack_sent_flag, controller_req_sent_flag, 
 	   	 controller_inc_time_out_retry, 
             	 controller_wr_en, controller_rd_en;
-rand bit         initialization_done, rd_ptr_eseq_set;
-rand bit [3:0]   o_lp_state_req;
+rand logic         initialization_done, rd_ptr_eseq_set;
+rand logic [3:0]   o_lp_state_req;
 
 // output signals//
-bit 		retry_send_ack_seq, retry_phy_reinit_req, 
+logic 		retry_send_ack_seq, retry_phy_reinit_req, 
                 retry_send_req_seq, retry_link_failure_sig, 
 	        retry_stop_read;
 

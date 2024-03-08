@@ -23,14 +23,15 @@ class retry_agent extends uvm_agent;
   
   
   
-  retry_driver driver;
 
   ctrl_flt_pkr_retry_monitor ctrl_flt_pkr_monitor;
   reg_file_retry_monitor reg_file_monitor;
   unpacker_retry_monitor unpacker_monitor;
   controller_retry_monitor controller_monitor;
   
-  retry_sequencer sequencer;
+  retry_driver driver;
+  retry_sequencer   sequencer;
+  
   retry_env_config  env_config_agent;
 
   `uvm_component_utils(retry_agent);
@@ -153,7 +154,10 @@ class retry_agent extends uvm_agent;
     unpacker_monitor.unpacker_retry_port.connect(unpacker_analysis_port);
     
     if(env_config_agent.agents_are_active)
-    driver.seq_item_port.connect(sequencer.seq_item_export);
+    begin
+        driver.seq_item_port.connect(sequencer.seq_item_export);
+        $display("driver_is_connected_to_sequencer!!");      
+    end
     
     $display("connect_phase of retry_agent is on the wheel!!");
   endfunction

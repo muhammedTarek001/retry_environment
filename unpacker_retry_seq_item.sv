@@ -11,20 +11,20 @@ super.new(name) ;
 endfunction
 
 //------unpacker signals-----//
-rand bit	 discard_received_flits;
-rand bit 	 unpacker_req_seq_flag, unpacker_flit_type, 
+rand logic	 discard_received_flits;
+rand logic 	 unpacker_req_seq_flag, unpacker_flit_type, 
           	 unpacker_all_data_flit_flag, unpacker_valid_sig, 
 	  	     unpacker_ack_seq_flag, unpacker_valid_crc,  
           	 unpacker_empty_bit;
-rand bit [3:0]   unpacker_llctrl_subtype, unpacker_llctrl;
-rand bit [4:0]   unpacker_retryreq_num;
-rand bit [7:0]   unpacker_full_ack, unpacker_rdptr_eseq_num;
+rand logic [3:0]   unpacker_llctrl_subtype, unpacker_llctrl;
+rand logic [4:0]   unpacker_retryreq_num;
+rand logic [7:0]   unpacker_full_ack, unpacker_rdptr_eseq_num;
 
 //outputs
-bit              retry_exist_retry_state;
+logic              retry_exist_retry_state;
 
 //-------CRC generator signals------//
-rand bit [527 :0]   crc_generator_flit_w_crc;
+rand logic [527 :0]   crc_generator_flit_w_crc;
 
 endclass
 endpackage

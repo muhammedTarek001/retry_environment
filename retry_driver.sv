@@ -64,6 +64,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     @(posedge vif.i_clk)
     
     seq_item_port.get_next_item(total_retry_seq_item);
+    $display("get_next_item !!!");
     vif.i_rst_n <= total_retry_seq_item.i_rst_n;
     //---------register file signals-------------------//
     vif.i_register_file_interface_sel <= total_retry_seq_item.i_register_file_interface_sel;
