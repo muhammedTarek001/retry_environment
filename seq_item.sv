@@ -29,7 +29,7 @@ rand bit [3:0]   o_lp_state_req;
 // output signals//
 logic 		retry_send_ack_seq, retry_phy_reinit_req, 
                 retry_send_req_seq, retry_link_failure_sig, 
-	        retry_stop_read;
+	            retry_stop_read;
 
 //------unpacker signals-----//
 

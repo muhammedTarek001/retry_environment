@@ -60,7 +60,7 @@ logic            retry_exist_retry_state;
 //--------------------------------------- 
 //inputs
 logic            i_register_file_interface_sel;
-logic [4:0]      i_register_file_retry_threshold
+logic [4:0]      i_register_file_retry_threshold;
 logic [4:0]      i_register_file_reinit_threshold;
 logic [7:0]      i_register_file_llr_wrap_value;                 
 logic [12:0]     i_register_file_retry_timeout_max_transfers;
@@ -84,10 +84,9 @@ logic [527 :0]   crc_generator_flit_w_crc;
 
 //-------output to packer ---------------//   
 logic            retry_set_ack_bit; 
- 
                 
 //-------outputs to control flit packer----------//
-logic [4:0]      retry_num_retry
+logic [4:0]      retry_num_retry;
 logic [4:0] retry_num_phy_reinit;
 logic [7:0]      retry_num_ack;
 logic [7:0] retry_num_free_buff;
