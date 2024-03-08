@@ -46,15 +46,14 @@ $display("my_test is built");
 endfunction
 
 
-/*task run_phase (uvm_phase phase);
+task run_phase (uvm_phase phase);
 super.run_phase(phase);
 $display("run is built");
 
 phase.raise_objection(this);
-seq1.set_response_queue_depth(512);
 seq1.start(env.agent.sequencer);
 phase.drop_objection(this);
-endtask*/
+endtask
 
 endclass
 endpackage 

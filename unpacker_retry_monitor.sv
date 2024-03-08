@@ -51,7 +51,7 @@ class unpacker_retry_monitor extends uvm_monitor;
     
     
     
-    $display("build_phase of unpacker_retry_monitor is on the wheel , monitor_vif = %p و !!" , monitor_vif);
+    $display("build_phase of unpacker_retry_monitor is on the wheel ");
   endfunction
   
   

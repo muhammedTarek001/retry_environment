@@ -3,7 +3,7 @@
 
 
 
-package retry_driver_pkg;
+package _retry_driver_pkg;
 import uvm_pkg::*;
 import retry_seq_item_pkg::*;
 `include "uvm_macros.svh"
@@ -27,7 +27,7 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     total_retry_seq_item = retry_seq_item::type_id::create("total_retry_seq_item");
     $display("build_phase of retry_driver is on the wheel!!");
 
-    if (!uvm_config_db#(virtual retry_intf)::get(
+    if (!uvm_config_db#(virtual intf)::get(
                                         this ,
                                         "",
                                         "vif" , 
@@ -49,50 +49,21 @@ class retry_driver extends uvm_driver #(retry_seq_item);
   endfunction
   
   
-  task force_retry_req();
-    total_retry_seq_item.unpacker_valid_crc = 0;
-    total_retry_seq_item.unpacker_flit_type = 0;
-    total_retry_seq_item.unpacker_valid_sig = 1;
-    total_retry_seq_item.i_register_file_llr_wrap_value = 8;
-    total_retry_seq_item.i_pl_state_sts = 4'b1;
-    total_retry_seq_item.controller_wr_en = 1'b1;
-
-    //unpacker_rdptr_eseq_num == 0
-    //always monitor LL_Retry_Buffer_Consumed
-    //monitor retry_num_ack
-    //retry_wrt_ptr
-  endtask 
-
-  task  retry_req_sent();
-    
-  endtask //
   
   
-  bit system_reseted_flag = 0;
+  
+  
+  
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    //-------cxs interface signal-------------//
-    total_retry_seq_item.i_register_file_interface_sel = 0;
-    //---------------------------------------//
-    //-----------PHY layer init signals---------------//
-    total_retry_seq_item.initialization_done = 1;
-    total_retry_seq_item.i_pl_lnk_up = 1;
-    //----------------------------------------------//
+    
 
     $display("run_phase of retry_driver");
    
-    total_retry_seq_item.i_rst_n = 0;
-    
-    force_retry_req();
     forever begin
     @(posedge vif.i_clk)
     
     vif.i_rst_n <= total_retry_seq_item.i_rst_n;
-    if(!system_reseted_flag)
-    begin
-      system_reseted_flag = 1;
-      total_retry_seq_item.i_rst_n = 1;
-    end
     //---------register file signals-------------------//
     vif.i_register_file_interface_sel <= total_retry_seq_item.i_register_file_interface_sel;
     vif.i_register_file_retry_threshold <= total_retry_seq_item.i_register_file_retry_threshold;
@@ -116,12 +87,20 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     vif.unpacker_retryreq_num <= total_retry_seq_item.unpacker_retryreq_num;  
     vif.unpacker_full_ack <= total_retry_seq_item.unpacker_full_ack;  
     vif.unpacker_rdptr_eseq_num <= total_retry_seq_item.unpacker_rdptr_eseq_num;    
-    
+    vif.retry_exist_retry_state <= total_retry_seq_item.retry_exist_retry_state; 
+    vif.crc_generator_flit_w_crc <= total_retry_seq_item.crc_generator_flit_w_crc;
+
     //----ctrl_flit_packer------------//
     vif.i_pl_lnk_up <= total_retry_seq_item.i_pl_lnk_up ;
     vif.i_pl_state_sts<= total_retry_seq_item.i_pl_state_sts ;
     vif.retry_set_ack_bit<= total_retry_seq_item.retry_set_ack_bit ;
-    
+    vif.retry_num_retry<= total_retry_seq_item.retry_num_retry ;
+    vif.retry_num_phy_reinit<= total_retry_seq_item. retry_num_phy_reinit;
+    vif.retry_num_ack<= total_retry_seq_item.retry_num_ack ;
+    vif.retry_num_free_buff<= total_retry_seq_item.retry_num_free_buff ;
+    vif.retry_eseq<= total_retry_seq_item.retry_eseq ;
+    vif.retry_wrt_ptr<= total_retry_seq_item.retry_wrt_ptr ;
+    vif.retry_llrb_flit<= total_retry_seq_item.retry_llrb_flit ;
 
     //----controller----------//
     vif.controller_dec_num_ack <= total_retry_seq_item.controller_dec_num_ack ;
@@ -134,10 +113,12 @@ class retry_driver extends uvm_driver #(retry_seq_item);
     vif.initialization_done <= total_retry_seq_item.initialization_done ;
     vif.rd_ptr_eseq_set <= total_retry_seq_item.rd_ptr_eseq_set ;
     vif.o_lp_state_req <= total_retry_seq_item.o_lp_state_req ;
+    vif.retry_send_ack_seq <= total_retry_seq_item.retry_send_ack_seq ;
+    vif.retry_phy_reinit_req <= total_retry_seq_item.retry_phy_reinit_req ;
+    vif.retry_send_req_seq <= total_retry_seq_item.retry_send_req_seq ;
+    vif.retry_link_failure_sig <= total_retry_seq_item.retry_link_failure_sig ;
+    vif.retry_stop_read <= total_retry_seq_item.retry_stop_read ;
 
-    vif.crc_generator_flit_w_crc <= total_retry_seq_item.crc_generator_flit_w_crc;
-    
-    // $display("vif.retry_send_req_seq = %d" , vif.retry_send_req_seq);
     end
 
   endtask

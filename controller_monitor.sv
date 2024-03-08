@@ -58,8 +58,8 @@ if (
     
 
     forever begin
-    // fork
-    //   begin
+    fork
+      begin
         @(posedge vif.i_clk)
         controller_retry_seq.controller_dec_num_ack <= vif.controller_dec_num_ack;
         controller_retry_seq.controller_llcrd_full_ack_sent <= vif.controller_llcrd_full_ack_sent;
@@ -78,12 +78,13 @@ if (
         controller_retry_seq.retry_stop_read <= vif.retry_stop_read;
 
         controller_retry_port.write(controller_retry_seq);
-    //   end
-
-    //   begin
-    //     monitor_retry_req();
-    //   end
-    // join_any
+      end
+      
+      begin
+        wait(vif.retry_send_req_seq == 1)
+        $display("retry_send_req_seq is raised @ time = %t" , $time);
+      end
+    join_any
     
    end
   endtask

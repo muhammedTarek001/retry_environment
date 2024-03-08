@@ -152,8 +152,8 @@ class retry_agent extends uvm_agent;
     controller_monitor.controller_retry_port.connect(controller_analysis_port);
     unpacker_monitor.unpacker_retry_port.connect(unpacker_analysis_port);
     
-   /* if(env_config_agent.agent_is_active)
-    driver.seq_item_port.connect(sequencer.seq_item_export);*/
+    if(env_config_agent.agent_is_active)
+    driver.seq_item_port.connect(sequencer.seq_item_export);
     
     $display("connect_phase of retry_agent is on the wheel!!");
   endfunction
@@ -163,6 +163,10 @@ class retry_agent extends uvm_agent;
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
     $display("run_phase of retry_agent");
+    
+      wait(vif.retry_send_req_seq == 1)
+      $display("retry_send_req_seq is raised @ time = %t" , $time);
+      
   endtask
   
   

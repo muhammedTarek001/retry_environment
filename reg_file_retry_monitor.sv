@@ -70,8 +70,7 @@ import retry_seq_item_pkg::*;
     reg_file_retry_seq.Link_Failure_Indicator_Register = vif.Link_Failure_Indicator_Register;
     reg_file_retry_seq.LL_Retry_Buffer_Consumed = vif.LL_Retry_Buffer_Consumed;
 
-   // reg_file_retry_seq.i_register_file_retry_threshold = 1 ;
-    $display("i_register_file_llr_wrap_value" , reg_file_retry_seq.i_register_file_llr_wrap_value);
+    
     reg_file_retry_port.write(reg_file_retry_seq);
     end
     $display("run_phase of reg_file_retry_monitor");
