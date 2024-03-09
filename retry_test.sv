@@ -36,7 +36,7 @@ begin
 end
 uvm_config_db#(virtual retry_intf)::set(this,"env","retry_vif",vif);
 //factory.print();
-config_obj.agents_are_active = 0;
+config_obj.agents_are_active = 1;
 config_obj.has_sb = 1;
 config_obj.has_subsc = 1;
 
@@ -45,10 +45,15 @@ uvm_config_db#(retry_env_config)::set(this, "env" , "retry_env_config" , config_
 $display("my_test is built");
 endfunction
 
+virtual function void connect_phase (uvm_phase phase);
+    super.connect_phase(phase);    
+    $display("connect_phase of retry_test is on the wheel!!");
+endfunction
+
 
 task run_phase (uvm_phase phase);
 super.run_phase(phase);
-$display("run is built");
+$display("run_phase of retry_test is on !!!");
 
 phase.raise_objection(this);
 seq1.start(env.agent.sequencer);

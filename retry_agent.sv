@@ -5,8 +5,8 @@
 package agent_pkg;
 
 import uvm_pkg::*;
-//import drvr_pkg::*;
-//import seqr_pkg::*;
+import retry_driver_pkg::*;
+import retry_seqr_pkg::*;
 import ctrl_flt_pkr_monitor_pkg::*;
 import reg_file_retry_monitor_pkg::*;
 import unpacker_retry_monitor_pkg::*;
@@ -23,14 +23,15 @@ class retry_agent extends uvm_agent;
   
   
   
-  //retry_driver driver;
 
   ctrl_flt_pkr_retry_monitor ctrl_flt_pkr_monitor;
   reg_file_retry_monitor reg_file_monitor;
   unpacker_retry_monitor unpacker_monitor;
   controller_retry_monitor controller_monitor;
   
-  //retry_sequencer sequencer;
+  retry_driver driver;
+  retry_sequencer   sequencer;
+  
   retry_env_config  env_config_agent;
 
   `uvm_component_utils(retry_agent);
@@ -52,16 +53,12 @@ class retry_agent extends uvm_agent;
   virtual function void build_phase (uvm_phase phase);
     
     super.build_phase(phase);
+    $display("build_phase of retry_agent!!");        
     //---getting env configuration from test---//
-    env_config_agent = retry_env_config::type_id::create("env_config_agent");
     uvm_config_db#(retry_env_config)::get(this , "" , "retry_module_env_config" , env_config_agent);
+    env_config_agent = retry_env_config::type_id::create("env_config_agent");
 
-        //---creating agent components based on configurations---//
-   /* if(env_config_agent.agent_is_active)
-    begin
-      driver    = retry_driver::type_id::create("driver" , this);
-      sequencer = retry_sequencer::type_id::create("sequencer" , this);
-    end*/
+  
 
 
 
@@ -82,7 +79,13 @@ class retry_agent extends uvm_agent;
           `uvm_fatal(get_full_name() , "Error in retry_env !#");
     end
     
-    
+    //---creating agent components based on configurations---//
+   if(env_config_agent.agents_are_active)
+    begin
+      $display("driver exist = %d" , env_config_agent.agents_are_active);
+      driver    = retry_driver::type_id::create("driver" , this);
+      sequencer = retry_sequencer::type_id::create("sequencer" , this);
+    end
     
     //getting the virtual interface that is in resource database
     if (!uvm_config_db#(virtual retry_intf)::get(
@@ -138,11 +141,7 @@ class retry_agent extends uvm_agent;
         
     end
     
-    
-    $display("build_phase of retry_agent is on the wheel!! , vif = %p",vif);
-    
-        
-  endfunction
+    endfunction
   
   
   
@@ -154,8 +153,11 @@ class retry_agent extends uvm_agent;
     controller_monitor.controller_retry_port.connect(controller_analysis_port);
     unpacker_monitor.unpacker_retry_port.connect(unpacker_analysis_port);
     
-    if(env_config_agent.agent_is_active)
-    driver.seq_item_port.connect(sequencer.seq_item_export);
+    if(env_config_agent.agents_are_active)
+    begin
+        driver.seq_item_port.connect(sequencer.seq_item_export);
+        $display("driver_is_connected_to_sequencer!!");      
+    end
     
     $display("connect_phase of retry_agent is on the wheel!!");
   endfunction
@@ -164,11 +166,7 @@ class retry_agent extends uvm_agent;
   
   virtual task run_phase (uvm_phase phase);
     super.run_phase(phase);
-    $display("run_phase of retry_agent");
-    
-      wait(vif.retry_send_req_seq == 1)
-      $display("retry_send_req_seq is raised @ time = %t" , $time);
-      
+    $display("run_phase of retry_agent");  
   endtask
   
   
