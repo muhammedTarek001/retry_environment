@@ -20,11 +20,13 @@ rand logic [3:0]   unpacker_llctrl_subtype, unpacker_llctrl;
 rand logic [4:0]   unpacker_retryreq_num;
 rand logic [7:0]   unpacker_full_ack, unpacker_rdptr_eseq_num;
 
+//-------CRC generator signals------//
+rand logic [527 :0]   crc_generator_flit_w_crc;
+
 //outputs
 logic              retry_exist_retry_state;
 
-//-------CRC generator signals------//
-rand logic [527 :0]   crc_generator_flit_w_crc;
+
 
 endclass
 endpackage

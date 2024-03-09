@@ -70,12 +70,14 @@ class retry_sequence extends uvm_sequence;
   endtask 
   
   task default_inputs();    
+    total_retry_seq_item.i_rst_n = 1;
+    total_retry_seq_item.initialization_done = 1;
     //---------unpacker signals-------------------//
     total_retry_seq_item.discard_received_flits=0;
     total_retry_seq_item.unpacker_req_seq_flag=0;
     total_retry_seq_item.unpacker_flit_type=0;
     total_retry_seq_item.unpacker_all_data_flit_flag=0;
-    total_retry_seq_item.unpacker_valid_sig=1;
+    total_retry_seq_item.unpacker_valid_sig=0;
     total_retry_seq_item.unpacker_ack_seq_flag=0;
     total_retry_seq_item.unpacker_valid_crc =1;
     total_retry_seq_item.unpacker_empty_bit =0;
@@ -99,34 +101,65 @@ class retry_sequence extends uvm_sequence;
     total_retry_seq_item.o_lp_state_req =0;
   endtask 
 
-  task  retry_req_sent();
-    
-  endtask //
-  
+  task retry_req_sent();
+    total_retry_seq_item.controller_req_sent_flag =1;
+  endtask
+
+  task valid_flit_rec();
+    total_retry_seq_item.unpacker_valid_sig=1;
+  endtask    
+
+  task  receive_retry_ack();
+    total_retry_seq_item.unpacker_ack_seq_flag=1;
+  endtask 
+
   task body;
     $display("sequence_just_started!!! @time = %t" , $time);
     //-------reseting retry module-------------// 
     start_item(total_retry_seq_item);
     reset();
-    default_inputs();
     finish_item(total_retry_seq_item);    
     //----------------------------------------// 
     total_retry_seq_item.i_rst_n = 1;
-    
     // ----------------link_init_done------------// 
-    
     start_item(total_retry_seq_item);
+    default_inputs();
     link_init_done();
     finish_item(total_retry_seq_item);   
     $display("initialization_done_from_sequence, @time= %t !!", $time); 
     // ----------------------------------------// 
-    // default_inputs();
-    // //----------------force_retry_req------------// 
-    // start_item(total_retry_seq_item);
-    // force_retry_req();
-    // finish_item(total_retry_seq_item);   
-    // //----------------------------------------// 
+    
 
+    start_item(total_retry_seq_item);
+    default_inputs();
+    retry_req_sent();
+    finish_item(total_retry_seq_item);   
+    
+  
+    
+    //----------------force_retry_req------------// 
+    start_item(total_retry_seq_item);
+    default_inputs();
+    valid_flit_rec();
+    force_retry_req();
+    finish_item(total_retry_seq_item);   
+    //-----------------------------------------// 
+    
+    //-----receive_retry_ack (not valid)------------------//
+    start_item(total_retry_seq_item);
+    default_inputs();
+    receive_retry_ack();
+    finish_item(total_retry_seq_item); 
+    //-------------------------------------------------//  
+  
+    //-------------receive_retry_ack------------//
+    start_item(total_retry_seq_item);
+    default_inputs();
+    valid_flit_rec();
+    receive_retry_ack();
+    finish_item(total_retry_seq_item); 
+    //-----------------------------------------//
+    
   endtask
   
 endclass

@@ -18,11 +18,13 @@ rand logic     	 controller_dec_num_ack, controller_llcrd_full_ack_sent,
 rand logic         initialization_done, rd_ptr_eseq_set;
 rand logic [3:0]   o_lp_state_req;
 
-// output signals//
+//--------------output signals-------------//
 logic 		retry_send_ack_seq, retry_phy_reinit_req, 
                 retry_send_req_seq, retry_link_failure_sig, 
 	        retry_stop_read;
-
+//--states----//
+logic [3:0] LRSM;
+logic [2:0] RRSM;
 
 endclass
 endpackage

@@ -75,6 +75,8 @@ if (
         controller_retry_seq.retry_send_req_seq <= vif.retry_send_req_seq;
         controller_retry_seq.retry_link_failure_sig <= vif.retry_link_failure_sig;
         controller_retry_seq.retry_stop_read <= vif.retry_stop_read;
+        controller_retry_seq.LRSM <= vif.LRSM;
+        controller_retry_seq.RRSM <= vif.RRSM;
 
         controller_retry_port.write(controller_retry_seq);     
    end

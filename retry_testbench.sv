@@ -81,6 +81,7 @@ Retry_Top_Module u0_retry (
 .retry_link_failure_sig(retry_if.retry_link_failure_sig)
 );
 
+bind u0_retry change_observer u0_chng_obsrever(.* , .LRSM(U5_LRSM.currentstate) , .RRSM(U0_RRSM.currentstate), .observer_on(1'b1) );
 
 initial
 begin

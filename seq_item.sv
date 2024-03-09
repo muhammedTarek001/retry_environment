@@ -81,5 +81,9 @@ logic [7:0]      retry_num_ack, retry_num_free_buff,
 // output to MUX-2
 logic [527 :0]   retry_llrb_flit;
 
+//--states----//
+logic [3:0] LRSM;
+logic [2:0] RRSM;
+
 endclass
 endpackage
