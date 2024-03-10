@@ -2,7 +2,7 @@
 
 
 
-package seqr_pkg;
+package retry_seqr_pkg;
 import uvm_pkg::*;
 import retry_seq_item_pkg::*;
 `include "uvm_macros.svh"

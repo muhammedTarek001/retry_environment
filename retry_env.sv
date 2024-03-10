@@ -1,12 +1,12 @@
 
 
-package retry_env_pkg;
+package env_pkg;
 
 import uvm_pkg::*;
 import agent_pkg::*;
 import retry_subsc_pkg::*;
 import sb_pkg::*;
-import retry_env_config_pkg::*;
+import env_config_pkg::*;
 
 
 `include "uvm_macros.svh"
@@ -41,13 +41,7 @@ class retry_env extends uvm_env;
     //------------------------------------------------//
     env_config_env = retry_env_config::type_id::create("env_config_env");
     
-   /* //__settig configs for agents
-    env_config_env.agent_is_active = 0;
-    
-    //__settig configs for subscriber and SB
-    env_config_env.has_sb = 1;
-    
-    env_config_env.has_subsc = 1;*/
+  
     
     //---------------------------------------------------------//
     //---passing configuration to agent-----------------------//
@@ -101,7 +95,7 @@ class retry_env extends uvm_env;
       uvm_config_db#(virtual retry_intf) :: set(
                                       this,
                                        "agent",
-                                       "retry_vif",
+                                       "vif",
                                        retry_vif
       );
         

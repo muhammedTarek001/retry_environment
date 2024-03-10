@@ -11,17 +11,17 @@ super.new(name) ;
 endfunction
 
 //------register file signals-----//
-rand bit         i_register_file_interface_sel;
-rand bit [4:0]   i_register_file_retry_threshold, 
+rand logic         i_register_file_interface_sel;
+rand logic [4:0]   i_register_file_retry_threshold, 
                  i_register_file_reinit_threshold;
-rand bit [7:0]   i_register_file_llr_wrap_value;                 
-rand bit [12:0]  i_register_file_retry_timeout_max_transfers;
+rand logic [7:0]   i_register_file_llr_wrap_value;                 
+rand logic [12:0]  i_register_file_retry_timeout_max_transfers;
 
 //outputs
-bit              REINIT_Threshold_hit, Retry_Threshold_hit,
-                 Retry_Threshold_hit_en, REINIT_Threshold_hit_en,
-		 Link_Failure_Indicator_Register;
-bit [7:0]        LL_Retry_Buffer_Consumed;
+logic              REINIT_Threshold_hit, Retry_Threshold_hit,
+                   Retry_Threshold_hit_en, REINIT_Threshold_hit_en,
+		           Link_Failure_Indicator_Register;
+logic [7:0]        LL_Retry_Buffer_Consumed;
 
 
 endclass

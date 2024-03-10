@@ -45,7 +45,7 @@ class retry_scoreboard extends uvm_scoreboard;
   virtual function void build_phase (uvm_phase phase);
     super.build_phase(phase);
     
-   //-----------------------------------------------//
+    //-----------------------------------------------//
     //--------creating sequence items --------------//
     //---------------------------------------------//
     controller_retry_seq = controller_retry_seq_item::type_id::create("controller_retry_seq"); 
@@ -110,61 +110,72 @@ class retry_scoreboard extends uvm_scoreboard;
   // %%%% PHY layer state is passed to LRSM_model and RRSM_model functions &&&& it's supposed not to affect LLRB
   
   //-----------------------------------//
-  // crc_error_reached = 0;
-  int seq_item_no = 0;
+  
+  task wait_retry_req();
+    @(posedge controller_retry_seq.retry_send_req_seq)
+    $display("retry_send_req_seq is raised @ time = %t" , $time);
+  endtask 
+
+  /*task wait_retry_ack();
+    wait(controller_retry_seq.retry_send_ack_seq == 1)
+    $display("retry_send_ack_seq is raised @ time = %t" , $time);
+  endtask */
+    
+  //enum int {  } LRSM_expec;
+
   virtual task run_phase (uvm_phase phase);  
     super.run_phase(phase);
-   
+    
     $display("run_phase of retry_scorreboard");
+    
+
+    forever begin 
     phase.raise_objection(this);
-    forever begin
-      
-      controller_tlm_fifo.get(controller_retry_seq);
-      reg_file_tlm_fifo.get(reg_file_retry_seq);
-      unpacker_tlm_fifo.get(unpacker_retry_seq);
-      ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
-      
-      fork
-        // LRSM_model();
-        tryyy(reg_file_retry_seq);
-        // RRSM_model();
+        
+	
+        
 
-      join_none
-      
+	fork
+        begin
+        $display("controller_retry_seq.retry_send_req_seq = %d", controller_retry_seq.retry_send_req_seq);
+        controller_tlm_fifo.get(controller_retry_seq);
+        reg_file_tlm_fifo.get(reg_file_retry_seq);
+        unpacker_tlm_fifo.get(unpacker_retry_seq);
+        ctrl_flt_pkr_tlm_fifo.get(ctrl_flt_pkr_retry_seq);
+        end
+
+        begin
+        wait_retry_req();
+        //wait_retry_ack();
+        end
+	join_any
+        
+     phase.drop_objection(this);
     end
-    phase.drop_objection(this);
-
+    
   endtask
   
-  task  tryyy(reg_file_retry_seq_item a);
-    #8
-    $display("seq_item_no =%d, message 1:: reg_file_retry_seq_item.Retry_Threshold_hit_en = %d , @time = %t" ,seq_item_no ,a.Retry_Threshold_hit_en, $time);
-    #9
-    $display("seq_item_no =%d, message 2:: reg_file_retry_seq_item.Retry_Threshold_hit_en = %d , @time = %t" ,seq_item_no ,a.Retry_Threshold_hit_en, $time);
-    seq_item_no++;
-  endtask //
-  // virtual task LRSM_model(inputs to llrsm, outputs that mainly depend on lrsm , ref crc_error_reached);
-  //    LLRB_LRSM_model();
-
+  
+  // virtual task crc_error_without_phy_reinit();
   //    if(crc_error && !PHY_reinit_raised || crc_error_reached)
   //    begin
+  //     raise a semaphore 
+  //     wait(seq_item.LRSM == RETRY_LLRREQ  &&  retry_send_req_seq  &&  out_flit (1st one)== RETRY.Frame )
+  //     wait(out_flit == RETRY.Frame)*4
+  //     wait(out_flit == RETRY.Req)
+      
+  //     wait(unpacker_ack_seq_flag && )
+
+
   //     crc_error_reached = 1;
   //     1-send req sequence and wait_on req sequence sent flag reaches ++ check that any thing received except for ack is discarded 
   //     2-after that wait_on ack sequence sent flag according to timeout threshold
   //         a) If ack reaches before timeout ---> Check that llrb increases eseq + Check that valid flits received from PHY layer
   //         b) If ack didnot reach before timeout  ---> go to step 1 (we will make step 1 as a function)
   //    end
-
-  //    else if(PHY_reinit_raised)
-  //    begin
-  //     wait_on link_up signal , then check on sent req signal raised and continue the same retry flow
-  //    end
   // endtask
 
-  // virtual task RRSM_model();
-  //   LLRB_RRSM_model();
-    
-  // endtask
+  
   
 endclass
 
