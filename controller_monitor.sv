@@ -9,7 +9,7 @@ import controller_retry_seq_item_pkg::*;
  function new(string name = "controller_monitor" , uvm_component parent = null);
  super.new(name,parent);
  endfunction
-  
+
   // virtual interface inst
   virtual retry_intf vif;
 

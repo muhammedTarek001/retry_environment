@@ -116,10 +116,10 @@ class retry_scoreboard extends uvm_scoreboard;
     $display("retry_send_req_seq is raised @ time = %t" , $time);
   endtask 
 
-  /*task wait_retry_ack();
+  task wait_retry_ack();
     wait(controller_retry_seq.retry_send_ack_seq == 1)
     $display("retry_send_ack_seq is raised @ time = %t" , $time);
-  endtask */
+  endtask 
     
   //enum int {  } LRSM_expec;
 
@@ -137,7 +137,6 @@ class retry_scoreboard extends uvm_scoreboard;
 
 	fork
         begin
-        $display("controller_retry_seq.retry_send_req_seq = %d", controller_retry_seq.retry_send_req_seq);
         controller_tlm_fifo.get(controller_retry_seq);
         reg_file_tlm_fifo.get(reg_file_retry_seq);
         unpacker_tlm_fifo.get(unpacker_retry_seq);
@@ -146,7 +145,8 @@ class retry_scoreboard extends uvm_scoreboard;
 
         begin
         wait_retry_req();
-        //wait_retry_ack();
+        wait_retry_ack();
+        
         end
 	join_any
         

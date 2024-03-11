@@ -60,7 +60,7 @@ $display("run_phase of retry_test is on !!!");
 
 phase.raise_objection(this);
 seq1.start(env.agent.sequencer);
-//seq2.start(env.agent.sequencer);
+seq2.start(env.agent.sequencer);
 phase.drop_objection(this);
 endtask
 
